@@ -1,0 +1,123 @@
+html
+{
+    height: 100vh;
+}
+
+.main_body
+{
+    min-height: 100vh;
+    background-color: darkslateblue;
+    padding: 0;
+    margin: 0;
+    border: 1px solid white;
+}
+
+.website_container
+{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 200px 1fr 70px;
+}
+
+.header
+{
+    width: 100%;
+    background-color: gold;
+    border: 1px solid blue;
+}
+
+.footer
+{
+    width: 100%;
+    background-color: gold;
+    border: 1px solid green;
+}
+
+.content_container
+{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.content
+{
+    background-color: brown;
+}
+
+
+.side
+{
+    background-color: green;
+}
+
+.gallery
+{
+    display: grid;
+    grid-template-rows: repeat(auto-fill, 300px);
+    grid-template-columns: repeat(auto-fill, 400px);
+}
+
+.gallery_item
+{
+    border: 1px dashed blue;
+}
+
+.content
+{
+    display:grid;
+    grid-template-rows: 3fr 1fr;
+    grid-template-columns: repeat(auto-fit, 1fr);
+    align-items: stretch;
+}
+
+.video_cont
+{
+    background-color: black;
+    grid-row-end: span 3;
+    grid-column-end: span 9000;
+    width: min-content;
+    align-items: stretch;
+}
+
+.capture
+{
+    text-align: center;
+    color: red;
+    cursor: pointer;
+}
+
+.capture:hover
+{
+    background-color: blue;
+}
+
+#video
+{
+    border: 1px dashed white;
+    width: auto;
+    object-fit: contain;
+    filter: sepia(80%);
+}
+
+.content_item
+{
+
+    border: 1px dashed black;
+    text-align: center;
+}
+
+.user_gallery{
+    width: 100%;
+    border: 1px solid black;
+    text-align: center;
+    filter: sepia(80%);
+}
+
+p
+{
+    text-align: center;
+}
