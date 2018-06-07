@@ -1,7 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eruaud
- * Date: 04/06/2018
- * Time: 13:19
- */
+$DB_DSN = 'mysql:host=172.18.0.2';
+$DB_USER = 'user';
+$DB_PASSWORD = 'user';
+$DB_NAME = 'cama';

@@ -1,7 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eruaud
- * Date: 04/06/2018
- * Time: 13:19
- */
+require_once dirname(__FILE__).'/../model/pdo_connection.php';
+
+ $connect = new pdo_connection();
+ $connect->connect();
+ if (isset($_GET['reset']) && $_GET['reset'] === 'true')
+     $connect->reset();
+ $connect->init();
+ $connect->close();

@@ -1,6 +1,8 @@
 </div>
 <div class="footer">
-    <p>footer</p>
+    <div class="signature">
+    Powered by Oreo
+    </div>
 </div>
 </div>
 </body>

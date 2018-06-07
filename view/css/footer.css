@@ -1,0 +1,15 @@
+.footer
+{
+    width: 100%;
+    background-color: white;
+    border-top: 1px solid darkgray;
+}
+
+.signature
+{
+    font-family: sans-serif, Arial;
+    font-size: 10px;
+    color: grey;
+    margin: 7px;
+    text-align: right;
+}

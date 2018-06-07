@@ -1,0 +1,29 @@
+.header
+{
+    width: 100%;
+    background-color: white;
+    font-family: sans-serif, Arial;
+    color: #EAEAEA;
+    border-bottom: 1px solid darkgray;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: white;
+    font-family: sans-serif, Arial;
+    vertical-align: bottom;
+}
+
+.navbar a {
+    float: left;
+    font-size: 16px;
+    color: grey;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: darkgrey;
+    color: whitesmoke;
+}
