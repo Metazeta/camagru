@@ -6,6 +6,8 @@ html
 
 .main_body
 {
+    position: relative;
+    height: 100%;
     min-height: 100%;
     max-width: 100%;
     background-color: whitesmoke;
@@ -15,19 +17,11 @@ html
 
 .website_container
 {
+    position:relative;
+    min-height: 100%;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 75px 1fr 70px;
-}
-
-.content_container
-{
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-    margin-left: 4%;
-    margin-right: 4%;
-    margin-top: 100px;
-    margin-bottom: 100px;
 }
 
 p

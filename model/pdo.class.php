@@ -86,6 +86,18 @@ class pdo_connection
                 comment_time TIMESTAMP               
             )";
             $this->dbh->exec($create);
+            $create = 'CREATE TABLE IF NOT EXISTS '.$this->db_name.".filters (
+                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                path VARCHAR(50) NOT NULL          
+            )";
+            $this->dbh->exec($create);
+            $create = 'CREATE TABLE IF NOT EXISTS '.$this->db_name.".users (
+                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                login VARCHAR(50),
+                passwd VARCHAR(100),
+                email VARCHAR(100)        
+            )";
+            $this->dbh->exec($create);
         } catch (PDOException $e)
         {
             echo $create . "<br>" . $e->getMessage();

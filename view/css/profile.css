@@ -1,72 +1,133 @@
-.content
+.content_container
 {
-    background-color: brown;
-}
-
-
-.side
-{
-    background-color: green;
-    max-height: 100%;
-}
-
-.content
-{
-    display:grid;
-    grid-template-rows: 3fr 1fr;
-    grid-template-columns: repeat(auto-fit, 1fr);
-    max-height: 100%;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-template-rows: auto 50px;
+    align-items: start;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 .video_cont
 {
-    background-color: black;
-    width: min-content;
-    align-items: stretch;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    display: inline-block;
 }
 
-.capture
+.side
 {
-    text-align: center;
-    color: red;
-    cursor: pointer;
+    grid-column-start : 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
 }
 
-.capture:hover
+.content
 {
-    background-color: blue;
-}
-
-#video
-{
-    border: 1px dashed white;
-    width: auto;
-    object-fit: contain;
+    margin: 40px;
+    margin-top: 0;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(auto-fit, 20%);
+    overflow:scroll;
+    grid-auto-flow: column;
 }
 
 .content_item
 {
+    border: 1px solid grey;
+    border-radius: 3px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
 
-    border: 1px dashed black;
+.filter
+{
+    border-radius: 3px;
+    object-fit: contain;
+    max-width: 100%;
+}
+
+#video
+{
+    display: none;
+    position: relative;
+    border-radius: 3px;
+    margin-top: 40px;
+    padding: 10px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    margin-bottom: 0;
+    border-radius: 8px;
+    min-width: 95%;
+}
+
+#vid_canvas
+{
+    position: relative;
+    border-radius: 3px;
+    margin-top: 40px;
+    padding: 10px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    margin-bottom: 0;
+    border-radius: 8px;
+    min-width: 95%;
+}
+
+.capture
+{
+    border: 1px solid grey;
     text-align: center;
+    color: black;
+    background-color: white;
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    height: 12px;
+    font-size: 14px;
+    font-family: sans-serif, Arial;
+}
+
+.capture:hover
+{
+    background-color: darkgrey;
 }
 
 .user_gallery{
+    border-radius: 5px;
+    max-height: 100%;
+    background-color: white;
+    border: 1px solid lightgrey;
+    margin: 40px;
     display:grid;
-    max-height:100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(auto-fit, 1fr);
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
-.user_gallery_item{
-    max-height:100%;
-    max-width: 100%;
-    border: 1px solid black;
+.user_gallery_item
+{
+    margin: 6px;
     text-align: center;
 }
 
-.user_snap{
+.user_snap
+{
+    border-radius: 3px;
+    border: 1px solid grey;
     width: 100%;
+}
+
+#filter
+{
+    width: 95%;
+    position: absolute;
+    z-index: 1;
 }

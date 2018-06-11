@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../model/pdo_connection.php';
+require_once dirname(__FILE__) . '/../model/pdo.class.php';
 
  $connect = new pdo_connection();
  $connect->connect();

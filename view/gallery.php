@@ -18,12 +18,13 @@
             "</div>
             <div class='comment_box'>
             <div class='comment_area'>
-            <textarea placeholder='Comment...' class='add_comment' id='comment_".$phot['id']."'></textarea>
+            <textarea placeholder='Add a comment...' class='add_comment' id='comment_".$phot['id']."'></textarea>
             </div>
             <div class='send_comment' id='addcomment_".$phot['id']."'>send</div>
             </div>
             </div>";
     }
     ?>
+</div>
     <script src="../controller/likes.js"></script>
     <script src="../controller/comments.js"></script>

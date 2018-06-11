@@ -1,4 +1,4 @@
 <?php
     require 'view/header.php';
-    require 'view/gallery.php';
+    require 'view/content.php';
     require 'view/footer.php';

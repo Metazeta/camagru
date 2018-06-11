@@ -15,6 +15,7 @@ function display_cam()
     }
 
     function videoError(e) {
+        console.log('please turn on your webcam');
     }
 }
 
@@ -34,4 +35,14 @@ function capture_cam() {
     location.reload();
 }
 
+function refresh_cam()
+{
+    var cv = document.getElementById('vid_canvas');
+    var ctx = cv.getContext('2d');
+    cv.width = video.videoWidth;
+    cv.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0);
+}
+
 display_cam();
+refresh_cam();

@@ -1,6 +1,6 @@
 <?php
 require dirname(__FILE__).'/../config/database.php';
-require_once dirname(__FILE__).'/../model/pdo_connection.php';
+require_once dirname(__FILE__) . '/../model/pdo.class.php';
 
 function connect_pdo()
 {
@@ -102,4 +102,14 @@ function register_comment($user_id , $snap_id, $content)
         )
     ");
     $connect->close();
+}
+
+function get_filters()
+{
+    $connect = connect_pdo();
+    $res = $connect->send("
+    SELECT `id`,`path` FROM cama.filters
+    ");
+    $connect->close();
+    return ($res->fetchAll());
 }
