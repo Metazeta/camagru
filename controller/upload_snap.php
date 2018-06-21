@@ -1,19 +1,14 @@
 <?php
 
-require_once '../model/queries.php';
+require_once '../model/snap.class.php';
+require_once '../model/user.class.php';
 
-define('UPLOAD_DIR', '../model/pics/');
-
+session_start();
 function save_file($img)
 {
-    $img = str_replace('data:image/png;base64,', '', $img);
-    $img = str_replace(' ', '+', $img);
-    $data = base64_decode($img);
-    $id = uniqid();
-    $file = UPLOAD_DIR . $id . '.png';
-    $success = file_put_contents($file, $data);
-    print $success ? $file : 'Unable to save the file.';
-    register_snap($id.'.png');
+    $user = unserialize($_SESSION['user']);
+    $new_snap = new snap();
+    echo $new_snap->save($user,$img);
 }
 
 if (isset($_POST['snap']))

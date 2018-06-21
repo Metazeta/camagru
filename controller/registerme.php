@@ -12,9 +12,9 @@ if (isset($_POST["login"]) && isset($_POST["passwd"]) && isset($_POST["email"]))
     }
     else
         {
-            $user = new user($_POST["login"]);
-            if ($user->create($_POST["passwd"], $_POST['email'])) {
-                $success = $user->auth($_POST['passwd']);
+            $user = new user(htmlspecialchars($_POST["login"]));
+            if ($user->create(htmlspecialchars($_POST["passwd"]), htmlspecialchars($_POST['email']))) {
+                $success = $user->auth(htmlspecialchars($_POST['passwd']));
                 if ($success) {
                     $_SESSION["user"] = serialize($user);
                     header("Location: ../profile.php");

@@ -22,7 +22,7 @@
 
 .gallery_head
 {
-    margin: 8px;
+    margin: 12px;
     font-family: sans-serif, Arial;
     font-size: 12px;
     color: grey;
@@ -30,23 +30,66 @@
 
 .likebtn{
     float: left;
-    margin: 8px;
+    margin-top: 2px;
+    margin-left: 12px;
     width: 28px;
     height: 28px;
-    filter: grayscale(80);
     background-image: url("../assets/heart.png");
 }
 
-.likebtn:hover
+.likebtnguest{
+    float: left;
+    margin-top: 2px;
+    margin-left: 12px;
+    filter: grayscale(80);
+    width: 28px;
+    height: 28px;
+    background-image: url("../assets/heart.png");
+}
+
+.likebtnnotliked{
+    filter: grayscale(80);
+}
+
+.likebtnliked{
+    filter: grayscale(0);
+}
+
+.likebtnliked:hover
+{
+    filter: grayscale(80);
+}
+
+.likebtnnotliked:hover
 {
     filter: grayscale(0);
+}
+
+.pagination
+{
+    text-align: center;
+    margin: 3px;
+    padding-bottom: 8px;
+}
+
+.pagination a
+{
+    font-family: sans-serif, Georgia;
+    font-size: 18px;
+    text-decoration: none;
+    color:grey;
 }
 
 .likes
 {
     font-family: sans-serif, Arial;
     font-size: 12px;
-    margin: 12px;
+    color: grey;
+    margin: 6px;
+    line-height: 20px;
+    margin-bottom: 2px;
+    margin-left: 50px;
+    height: 22px;
 }
 
 .comment_box
@@ -88,17 +131,38 @@
 
 .comments
 {
-    text-align: center;
 }
 
 .comment
 {
+    overflow: hidden;
+    overflow-wrap: break-word;
     text-align: left;
     font-family: sans-serif, Arial;
-    font-size: 14px;
+    font-size: 12px;
     padding: 2px;
-    border-radius: 3px;
     margin: 10px;
     width: 90%;
-    border: 1px solid lightgrey;
+}
+
+.comment b
+{
+    font-size: 14px;
+}
+
+.snap_title
+{
+    padding: 0;
+    padding-left: 30px;
+    font-size: 14px;
+    margin: 0;
+    font-weight: bold;
+    color: black;
+    text-align: left;
+}
+
+.people
+{
+    width: 20px;
+    float: left;
 }

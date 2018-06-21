@@ -2,25 +2,26 @@
     <div class="video_cont">
         <div id='filter'><img id="filter_img" src=""/></div>
         <video autoplay="true" id="video"></video>
-        <canvas id="vid_canvas">
-        </canvas>
-        <div class="capture">Snap</div>
+        <div id="snap" class="capture">Snap</div>
         <div class="content">
             <?php
-            require_once dirname(__FILE__).'/../model/queries.php';
-            $filters = get_filters();
-            foreach($filters as $filt)
-                echo "<div class='content_item'><img id='filter_".$filt['id']."' 
-                    class='filter' src='../model/filters/".$filt['path']."'/></div>"
+            require_once dirname(__FILE__).'/../model/snap.class.php';
+            //$filters = get_filters();
+            //foreach($filters as $filt)
+             //   echo "<div class='content_item'><img id='filter_".$filt['id']."'
+             //       class='filter' src='../model/filters/".$filt['path']."'/></div>"
             ?>
         </div>
     </div>
     <div class="side">
         <div class='user_gallery'>
             <?php
-            $photos = get_images(1);
-            foreach($photos as $phot)
-                echo "<div class='user_gallery_item'><img class='user_snap' src='../model/pics/".$phot['path']."'/></div>"
+            require_once 'model/user.class.php';
+            $snappy = new snap();
+            $user = unserialize($_SESSION['user'])->get_id();
+            $photos = $snappy->get_images($user, 1);
+            foreach($photos as $key=>$phot)
+                echo "<div id= 'item_".$key."' class='user_gallery_item'><img class='user_snap' id='user_snap_".$phot['id']."' src='../model/pics/".$phot['path']."'/></div>"
             ?>
         </div>
     </div>

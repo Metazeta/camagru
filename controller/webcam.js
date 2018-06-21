@@ -1,48 +1,88 @@
-const video = document.getElementById("video");
+(function() {
 
-document.getElementsByClassName("capture")[0].addEventListener("click", capture_cam);
-
-function display_cam()
-{
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+    navigator.getUserMedia = ( navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia);
 
     if (navigator.getUserMedia) {
-        navigator.getUserMedia({video: true}, handleVideo, videoError);
+        navigator.getUserMedia(
+            {
+                video: true,
+                audio: false
+            },
+            function (localMediaStream) {
+                var video = document.getElementById('video');
+                video.srcObject = localMediaStream;
+            },
+            function (err) {
+                console.log("The following error occured: " + err);
+            });
+    } else {
+        alert("getUserMedia not supported by your web browser or Operating system version");
     }
 
-    function handleVideo(stream) {
-        video.srcObject = stream;
+    function rotate_gallery()
+    {
+        var el = document.getElementsByClassName("user_gallery")[0];
+        for (var i = 4; i >= 0; i--)
+            document.getElementById("item_" + i).id = "item_" + (i+1).toString();
+        document.getElementById("item_5").remove();
+        var newpic = document.createElement("div");
+        newpic.className = "user_gallery_item";
+        var imginser = document.createElement("img");
+        imginser.className = "user_snap";
+        el.insertBefore(newpic, el.firstChild);
+        newpic.appendChild(imginser);
+        newpic.id = "item_0";
+        return imginser;
     }
 
-    function videoError(e) {
-        console.log('please turn on your webcam');
+    function takepicture() {
+
+        var canvas = document.getElementById('canvas');
+        var video = document.getElementById('video');
+        var width = video.videoWidth;
+        var height = video.videoHeight;
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+        var data = canvas.toDataURL('image/png');
+        var imginser = rotate_gallery();
+        imginser.src = data;
+        if (window.XMLHttpRequest) {
+            var xh = new XMLHttpRequest();
+        }
+        else if (window.ActiveXObject) {
+            var xh = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xh.open("POST", "controller/upload_snap.php", true);
+        xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xh.send("snap=" + data);
     }
-}
 
-function capture_cam() {
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0);
-    var data_url = canvas.toDataURL();
-    var xhr = new XMLHttpRequest();
-    document.getElementsByClassName("capture")[0].innerHTML="Uploading, please wait...";
-    xhr.open("POST", "../controller/upload_snap.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send('snap=' + data_url);
-    document.getElementsByClassName("capture")[0].innerHTML="Snap";
-    location.reload();
-}
+    document.getElementById("snap").addEventListener("click", function(ev){
+        takepicture();
+        ev.preventDefault();
+    }, false);
 
-function refresh_cam()
-{
-    var cv = document.getElementById('vid_canvas');
-    var ctx = cv.getContext('2d');
-    cv.width = video.videoWidth;
-    cv.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0);
-}
+    function delete_snap(id)
+    {
+        if (window.XMLHttpRequest) {
+            var xh = new XMLHttpRequest();
+        }
+        else if (window.ActiveXObject) {
+            var xh = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xh.open("POST", "controller/delete_snap.php", true);
+        xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xh.send("snap_id=" + id);
+    }
 
-display_cam();
-refresh_cam();
+    [].forEach.call(document.getElementsByClassName("user_snap"), function(el) {
+        el.addEventListener("click", function() {
+            var id = (el.id).replace("user_snap_", "");
+            delete_snap(id);
+        }, false);
+    });
+})();

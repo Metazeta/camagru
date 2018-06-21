@@ -1,0 +1,48 @@
+.account{
+    display:grid;
+    align-items: center;
+    grid-template-columns: 1fr 12fr;
+    grid-gap: 5%;
+}
+
+.account_nav
+{
+    margin-left: -100%;
+    height: 80%;
+    border-radius: 8px;
+    background-color: white;
+    border: 1px solid darkgrey;
+}
+
+.account_item
+{
+    background: whitesmoke;
+    border-radius: 5px;
+    border: 1px solid darkgrey;
+    font-family: sans-serif, Arial;
+    color: darkgrey;
+    padding: 8px;
+    margin: 8px;
+    text-align: right;
+    cursor: pointer;
+}
+
+.account_item:hover
+{
+    background: darkgrey;
+    color: whitesmoke;
+}
+
+.account_container
+{
+    height: 80%;
+    border-radius: 8px;
+    border: 1px solid darkgrey;
+    background-color: white;
+}
+
+#account_content
+{
+    font-family: sans-serif, Arial;
+    padding: 12px;
+}

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="view/css/profile.css">
     <link rel="stylesheet" href="view/css/footer.css">
     <link rel="stylesheet" href="view/css/login.css">
+    <link rel="stylesheet" href="view/css/account.css">
     <link rel="stylesheet" href="view/css/register.css">
 </head>
 <body class="main_body">
@@ -23,11 +24,15 @@
             session_start();
             if (isset($_SESSION["user"]) && $_SESSION["user"] != "") {
                 echo "<a class='navitem' href='profile.php'>My Profile</a>
-                       <a class='login' href='logout.php'>Logout</a>";
+                       <div class='navitem'></div>
+                        <a class='navitem' href='account.php'>Account</a>
+                       <a class='navitem' href='logout.php'>Logout</a>";
             }
             else
-                echo "<a class='navitem' href='login.php'>Login</a>
-                    <a class='login' href='register.php'>Register</a>";
+                echo "
+                    <div class='navitem'></div>
+                    <a class='navitem' href='login.php'>Login</a>
+                    <a class='navitem' href='register.php'>Register</a>";
         ?>
     </div>
 </div>

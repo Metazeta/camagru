@@ -82,7 +82,7 @@ class pdo_connection
                 id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 user_id INT UNSIGNED,
                 snap_id INT UNSIGNED,
-                content VARCHAR(50) NOT NULL,
+                content VARCHAR(250) NOT NULL,
                 comment_time TIMESTAMP               
             )";
             $this->dbh->exec($create);

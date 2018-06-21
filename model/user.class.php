@@ -2,27 +2,49 @@
 
 require_once dirname(__FILE__) . '/../model/pdo.class.php';
 
-class user
+class user extends pdo_connection
 {
     protected $login = "";
     protected $passwd = "";
     protected $email = "";
+    protected $id = 0;
 
     function __construct($login)
     {
+        parent::__construct();
         $this->login = $login;
+    }
+
+    function get_login()
+    {
+        return $this->login;
+    }
+
+    function login_from_id($id)
+    {
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `login` FROM `users` WHERE `id` = :id");
+        $st->execute(array(":id" => $id));
+        $this->login = $st->fetchAll()[0]['login'];
+        return $this->login;
+    }
+
+    function get_id()
+    {
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `id` FROM `users` WHERE `login` = :login");
+        $st->execute(array(":login" => $this->login));
+        $this->id = $st->fetchAll()[0]['id'];
+        return $this->id;
     }
 
     private function get_passwd()
     {
-        $connect = new pdo_connection();
-        $connect->connect();
-        $res = $connect->send("
-          SELECT `passwd` FROM `users`
-          WHERE `login` = '".$this->login."'
-        ");
-        $connect->close();
-        $res = $res->fetchAll();
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `passwd` FROM `users` WHERE `login` = :login");
+        $st->execute(array(":login" => $this->login));
+        $this->close();
+        $res = $st->fetchAll();
         if (isset($res) && isset($res[0]) && isset($res[0]['passwd']))
             $this->passwd = $res[0]['passwd'];
         else
@@ -34,14 +56,11 @@ class user
     {
         if($this->passwd != "")
         {
-            $connect = new pdo_connection();
-            $connect->connect();
-            $res = $connect->send("
-                SELECT `email` FROM users
-                WHERE login = '".$this->login."'
-            ");
-            $row = $res->fetchAll();
-            $connect->close();
+            $this->connect();
+            $st = $this->dbh->prepare("SELECT `email` FROM users WHERE login = :login");
+            $st->execute(array(':login' => $this->login));
+            $row = $st->fetchAll();
+            $this->close();
             if ($row && isset($row[0]) && isset($row[0]['email']))
                 $this->email = $row[0]['email'];
         }
@@ -55,20 +74,16 @@ class user
 
     public function create($passwd, $email)
     {
-        $connect = new pdo_connection();
-        $connect->connect();
-        $exists = $connect->send("
-        SELECT `login` FROM `users`
-        WHERE `login` = '".$this->login."'");
-        $exists = $exists->fetchAll();
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `login` FROM `users` WHERE `login` = :login");
+        $st->execute(array(":login" => $this->login));
+        $exists = $st->fetchAll();
         if (count($exists) != 0)
             return FALSE;
-        $connect->send("
-        INSERT INTO `users`
-        (`login`,`passwd`, `email`)
-        VALUES
-        ('".$this->login."', '".$passwd."', '".$email."')");
-        $connect->close();
+        $st = $this->dbh->prepare("INSERT INTO `users` (`login`, `passwd`, `email`)
+        VALUES (:login, :passwd, :email)");
+        $st->execute(array(":login" => $this->login, ":passwd" => $passwd, ":email" => $email));
+        $this->close();
         return TRUE;
     }
 
