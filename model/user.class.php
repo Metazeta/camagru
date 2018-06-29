@@ -15,6 +15,17 @@ class user extends pdo_connection
         $this->login = $login;
     }
 
+    function get_all_logins()
+    {
+        $this->connect();
+        $res = $this->dbh->query("SELECT `login` FROM `users`");
+        $res = $res->fetchAll();
+        $logins = array();
+        foreach ($res as $login)
+            $logins[] = $login['login'];
+        return $logins;
+    }
+
     function get_login()
     {
         return $this->login;
@@ -41,11 +52,12 @@ class user extends pdo_connection
     private function get_passwd()
     {
         $this->connect();
-        $st = $this->dbh->prepare("SELECT `passwd` FROM `users` WHERE `login` = :login");
+        $st = $this->dbh->prepare("SELECT `passwd`, `confirmation` FROM `users` WHERE `login` = :login");
         $st->execute(array(":login" => $this->login));
         $this->close();
         $res = $st->fetchAll();
-        if (isset($res) && isset($res[0]) && isset($res[0]['passwd']))
+        if (isset($res) && isset($res[0]) && isset($res[0]['passwd']) &&
+            isset($res[0]['confirmation']) && $res[0]['confirmation'] == "")
             $this->passwd = $res[0]['passwd'];
         else
             return False;
@@ -54,8 +66,7 @@ class user extends pdo_connection
 
     private function get_mail()
     {
-        if($this->passwd != "")
-        {
+        if ($this->passwd != "") {
             $this->connect();
             $st = $this->dbh->prepare("SELECT `email` FROM users WHERE login = :login");
             $st->execute(array(':login' => $this->login));
@@ -66,32 +77,87 @@ class user extends pdo_connection
         }
     }
 
-    public function send_mail()
+    public function confirm($confirm)
+    {
+        $this->connect();
+        $st = $this->dbh->prepare("UPDATE users SET `confirmation` = '' WHERE `confirmation` = :confirm");
+        $st->execute(array(":confirm" => $confirm));
+        $res = $st->rowCount();
+        $this->close();
+        return ($res > 0);
+    }
+
+    public function get_confirm()
+    {
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `confirmation` FROM `users` WHERE `id` = :user_id");
+        $st->execute(array(":user_id" => $this->login));
+        $res = $st->fetchAll();
+        $this->close();
+        return $res;
+    }
+
+    public function send_confirm_mail()
     {
         $this->get_mail();
-        return $this->email;
-    }
+        $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+        $content = "Please visit <a href='".$url."?confirm=".$this->get_confirm().
+            "' this link</a> to confirm your account";
+        mail($this->email, "My Little Camagru - Confirm your email", $content);
+        }
 
     public function create($passwd, $email)
     {
+        $passwd = hash("sha384", $passwd);
         $this->connect();
         $st = $this->dbh->prepare("SELECT `login` FROM `users` WHERE `login` = :login");
         $st->execute(array(":login" => $this->login));
         $exists = $st->fetchAll();
         if (count($exists) != 0)
             return FALSE;
-        $st = $this->dbh->prepare("INSERT INTO `users` (`login`, `passwd`, `email`)
-        VALUES (:login, :passwd, :email)");
-        $st->execute(array(":login" => $this->login, ":passwd" => $passwd, ":email" => $email));
+        $st = $this->dbh->prepare("INSERT INTO `users` (`login`, `passwd`, `email`, `confirmation`)
+        VALUES (:login, :passwd, :email, :confirm)");
+        $st->execute(array(":login" => $this->login, ":passwd" => $passwd, ":email" => $email, ":confirm" => uniqid()));
         $this->close();
+        $this->send_confirm_mail();
         return TRUE;
     }
 
     public function auth($passwd)
     {
         $res = $this->get_passwd();
-        if ($res == True && $this->passwd == $passwd)
+        if ($res == True && $this->passwd == hash("sha384", $passwd))
             return True;
         return False;
+    }
+
+    public function update_passwd($current, $new)
+    {
+        $this->get_passwd();
+        if (hash("sha384", $current) !== $this->passwd)
+            return false;
+        $this->connect();
+        $st = $this->dbh->prepare("UPDATE users SET `passwd` = :newpass WHERE `login` = :login");
+        $st->execute(array(":newpass" => hash("sha384", $new), ":login" => $this->login));
+        $this->close();
+        return true;
+    }
+
+    public function delete($passwd)
+    {
+        if (!$this->auth($passwd))
+            return false;
+        $id = $this->get_id();
+        $this->connect();
+        $st = $this->dbh->prepare("DELETE FROM pics WHERE `user_id` = :user_id");
+        $st->execute(array(":user_id" => $lid));
+        $st = $this->dbh->prepare("DELETE FROM comments WHERE `user_id` = :user_id");
+        $st->execute(array(":user_id" => $id));
+        $st = $this->dbh->prepare("DELETE FROM likes WHERE `user_id` = :user_id");
+        $st->execute(array(":user_id" => $id));
+        $st = $this->dbh->prepare("DELETE FROM users WHERE `id` = :user_id");
+        $st->execute(array(":user_id" => $id));
+        $this->close();
+        return true;
     }
 }

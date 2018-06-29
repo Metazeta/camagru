@@ -95,7 +95,9 @@ class pdo_connection
                 id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 login VARCHAR(50),
                 passwd VARCHAR(100),
-                email VARCHAR(100)        
+                email VARCHAR(100),
+                confirmation VARCHAR (60),
+                suscribe INT NOT NULL      
             )";
             $this->dbh->exec($create);
         } catch (PDOException $e)

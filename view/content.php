@@ -1,3 +1,7 @@
+<?php
+    if (!isset($_SESSION['user']))
+        header("Location: ../index.php");
+?>
 <div class="content_container">
     <div class="video_cont">
         <div id='filter'><img id="filter_img" src=""/></div>

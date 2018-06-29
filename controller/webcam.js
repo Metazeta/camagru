@@ -25,9 +25,12 @@
     function rotate_gallery()
     {
         var el = document.getElementsByClassName("user_gallery")[0];
-        for (var i = 4; i >= 0; i--)
-            document.getElementById("item_" + i).id = "item_" + (i+1).toString();
-        document.getElementById("item_5").remove();
+        for (var i = 4; i >= 0; i--) {
+            if (document.getElementById("item_" + i))
+                document.getElementById("item_" + i).id = "item_" + (i + 1).toString();
+        }
+        if (document.getElementById("item_5"))
+            document.getElementById("item_5").remove();
         var newpic = document.createElement("div");
         newpic.className = "user_gallery_item";
         var imginser = document.createElement("img");
