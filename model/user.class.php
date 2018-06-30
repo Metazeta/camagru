@@ -90,18 +90,17 @@ class user extends pdo_connection
     public function get_confirm()
     {
         $this->connect();
-        $st = $this->dbh->prepare("SELECT `confirmation` FROM `users` WHERE `id` = :user_id");
-        $st->execute(array(":user_id" => $this->login));
+        $st = $this->dbh->prepare("SELECT `confirmation` FROM `users` WHERE `login` = :login");
+        $st->execute(array(":login" => $this->login));
         $res = $st->fetchAll();
         $this->close();
-        return $res;
+        return $res[0][0];
     }
 
     public function send_confirm_mail()
     {
         $this->get_mail();
-        $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-        $content = "Please visit <a href='".$url."?confirm=".$this->get_confirm().
+        $content = "Please visit <a href='plop'?confirm=".$this->get_confirm().
             "' this link</a> to confirm your account";
         mail($this->email, "My Little Camagru - Confirm your email", $content);
         }
@@ -142,6 +141,27 @@ class user extends pdo_connection
         $this->close();
         return true;
     }
+
+    public function get_suscribe()
+    {
+      $this->connect();
+      $this->get_login();
+      $st = $this->dbh->prepare("SELECT `suscribe` FROM users WHERE `login` = :login");
+      $st->execute(array(":login" => $this->login));
+      $this->close();
+      $res = $st->fetchAll()[0][0];
+      return $res;
+    }
+
+    public function set_suscribe($state)
+        {
+          $this->connect();
+          $this->get_login();
+          $st = $this->dbh->prepare("UPDATE `users` SET `suscribe` = :state WHERE `login` = :login");
+          $st->execute(array(":login" => $this->login, ":state" => $state));
+          $this->close();
+          return $this->login;
+        }
 
     public function delete($passwd)
     {

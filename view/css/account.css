@@ -180,3 +180,22 @@ input:checked + .slider:before {
     font-family: sans-serif, Georgia;
     top: 30%;
 }
+
+.setting_list
+{
+  display:grid;
+  grid-template: repeat(10, 50px) / 300px 50px;
+  grid-gap: 20px;
+}
+
+.textinput
+{
+  text-align: right;
+  width: 90%;
+}
+
+.inputlabel
+{
+  text-align: left;
+  width: 90%;
+}
