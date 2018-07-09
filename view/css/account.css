@@ -40,6 +40,30 @@
     padding: 12px;
 }
 
+.change_login_form
+{
+    width: 280px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px darkgray;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    position: relative;
+    left: 50%;
+    top: 100px;
+    display:grid;
+    margin-left: -230px;
+    grid-template-rows: 15px repeat(4, 30px);
+    grid-template-columns: 120px 160px;
+    height: 130px;
+    grid-row-gap: 10px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    font-size: 14px;
+}
+
 .password_form
 {
     width: 280px;
@@ -54,7 +78,7 @@
     left: 50%;
     top: 100px;
     display:grid;
-    margin-left: -140px;
+    margin-left: -230px;
     grid-template-rows: 15px repeat(4, 30px);
     grid-template-columns: 120px 160px;
     height: 180px;
@@ -78,7 +102,7 @@
     left: 50%;
     top: 100px;
     display:grid;
-    margin-left: -140px;
+    margin-left: -230px;
     grid-template-rows: 15px repeat(4, 30px);
     grid-template-columns: 120px 160px;
     height: 90px;
@@ -184,8 +208,32 @@ input:checked + .slider:before {
 .setting_list
 {
   display:grid;
-  grid-template: repeat(10, 50px) / 300px 50px;
+  grid-template: repeat(10, 50px) / 350px 50px;
   grid-gap: 20px;
+}
+
+.settings
+{
+  width: 450px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px darkgray;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  position: relative;
+  left: 50%;
+  top: 100px;
+  display:grid;
+  margin-left: -400px;
+  grid-template-rows: 15px repeat(4, 30px);
+  grid-template-columns: 120px 160px;
+  height: 90px;
+  grid-row-gap: 10px;
+  border: 1px solid lightgrey;
+  background-color: white;
+  font-size: 14px;
 }
 
 .textinput

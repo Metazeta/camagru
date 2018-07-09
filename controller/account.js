@@ -1,15 +1,72 @@
+// Change email panel
+document.getElementById("change_email").addEventListener('click', function(ev){
+    var el = document.getElementById("account_content");
+    el.className="change_login_form";
+    el.innerHTML =
+        "<div id='hint'></div>" +
+        "<div class='inputlabel'>New email</div>"+
+        "<div><input class='textinput' type='text' id='newmail'/></div>" +
+        "<div class='inputlabel'>Password</div>"+
+        "<div><input class='textinput' type='password' id='initial_pass'/></div>" +
+        "<input id='change_email_confirm' type='submit' value='Confirm' disabled/>";
+        document.getElementById("newmail").addEventListener('keyup', function (ev) {
+          var mailval = mail_validity(document.getElementById("newmail").value);
+          document.getElementById("hint").innerText = mailval;
+            if (document.getElementById("newmail").value.length > 0 && mailval.length === 0){
+              document.getElementById("change_email_confirm").disabled = false;
+            }
+            else {
+              document.getElementById("change_email_confirm").disabled = true;
+            }
+        });
+        document.getElementById("change_email_confirm").addEventListener('click', function (ev) {
+            xh = new XMLHttpRequest();
+            xh.onreadystatechange = function() {
+                if (xh.readyState === 4) {
+                    if (xh.response !== '-1')
+                      document.getElementById("hint").innerText = "Your new email was set successfully";
+                    else
+                      document.getElementById("hint").innerText = "An error occurred";
+                }
+            };
+            xh.open("POST", "../controller/update_user.php", true);
+            xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xh.send("pwd=" + document.getElementById("initial_pass").value +
+                "&newmail=" + document.getElementById("newmail").value);
+        });
+    });
 // Change login panel
+
 document.getElementById("change_login").addEventListener('click', function(ev){
     var el = document.getElementById("account_content");
-    el.className="password_form";
+    el.className="change_login_form";
     el.innerHTML =
         "<div id='hint'></div>" +
         "<div class='inputlabel'>New login</div>"+
-        "<div><input class='textinput' type='text' id='new_pass1'/></div>" +
+        "<div><input class='textinput' type='text' id='newlogin'/></div>" +
         "<div class='inputlabel'>Password</div>"+
         "<div><input class='textinput' type='password' id='initial_pass'/></div>" +
-        "<input id='password_confirm' type='submit' value='Confirm'/>";
-});
+        "<input id='change_login_confirm' type='submit' value='Confirm' disabled/>";
+        document.getElementById("newlogin").addEventListener('keyup', function (ev) {
+            if (document.getElementById("newlogin").value.length > 0)
+              document.getElementById("change_login_confirm").disabled = false;
+        });
+        document.getElementById("change_login_confirm").addEventListener('click', function (ev) {
+            xh = new XMLHttpRequest();
+            xh.onreadystatechange = function() {
+                if (xh.readyState === 4) {
+                  if (xh.response !== '-1')
+                      document.getElementById("hint").innerText = "Your new login was set successfully";
+                    else
+                      document.getElementById("hint").innerText = "An error occurred";
+                }
+            };
+            xh.open("POST", "../controller/update_user.php", true);
+            xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xh.send("pwd=" + document.getElementById("initial_pass").value +
+                "&newlogin=" + document.getElementById("newlogin").value);
+        });
+  });
 // Change password panel
 document.getElementById("password").addEventListener('click', function(ev){
     var el = document.getElementById("account_content");
@@ -31,7 +88,7 @@ document.getElementById("password").addEventListener('click', function(ev){
                         document.getElementById("hint").innerText = "Your new password was set successfully";
                 }
             };
-            xh.open("POST", "../controller/update_passwd.php", true);
+            xh.open("POST", "../controller/update_user.php", true);
             xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xh.send("oldpwd=" + document.getElementById("initial_pass").value +
                 "&newpwd=" + document.getElementById("new_pass1").value);

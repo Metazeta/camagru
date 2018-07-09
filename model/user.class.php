@@ -139,8 +139,40 @@ class user extends pdo_connection
         $st = $this->dbh->prepare("UPDATE users SET `passwd` = :newpass WHERE `login` = :login");
         $st->execute(array(":newpass" => hash("sha384", $new), ":login" => $this->login));
         $this->close();
+        $this->passwd = hash("sha384", $new);
         return true;
     }
+
+    public function update_login($current, $new)
+    {
+        $this->get_passwd();
+        if (hash("sha384", $current) !== $this->passwd)
+            return -1;
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `login` FROM `users` WHERE `login` = :login");
+        $st->execute(array(":login" => $new));
+        $exists = $st->fetchAll();
+        if (count($exists) > 0)
+        {
+            $this->close();
+            return -1;
+        }
+        $st2 = $this->dbh->prepare("UPDATE users SET `login` = :newlogin WHERE `login` = :login");
+        $st2->execute(array(":newlogin" => $new, ":login" => $this->login));
+        $this->close();
+        $this->login = $new;
+        return 1;
+    }
+
+        public function update_email($current, $new)
+        {
+            $this->connect();
+            $st2 = $this->dbh->prepare("UPDATE users SET `email` = :newmail WHERE `login` = :login");
+            $st2->execute(array(":newmail" => $new, ":login" => $this->login));
+            $this->close();
+            $this->email = $new;
+            return 1;
+        }
 
     public function get_suscribe()
     {

@@ -17,8 +17,7 @@ if (isset($_POST["login"]) && isset($_POST["passwd"]) && isset($_POST["email"]))
             $user = new user(htmlspecialchars($_POST["login"]));
             if ($user->create(htmlspecialchars($_POST["passwd"]), htmlspecialchars($_POST['email']))) {
                 $success = $user->auth(htmlspecialchars($_POST['passwd']));
-                echo $_POST['email'];
-                //header("Location: ../register.php");
+                header("Location: ../register.php");
             }
         }
 }
