@@ -16,10 +16,23 @@
                 video.srcObject = localMediaStream;
             },
             function (err) {
-                console.log("The following error occured: " + err);
+                upload_form();
             });
     } else {
         alert("getUserMedia not supported by your web browser or Operating system version");
+    }
+
+    function upload_form(){
+        var up_section = document.createElement('div');
+        var up_label = document.createElement('div');
+        var up_butn = document.createElement('input');
+        up_section.append(up_label);
+        up_section.append(up_butn);
+        up_label.innerText = 'Select an image to use';
+        up_butn.type = 'file';
+        up_butn.accept = 'image/*';
+        document.getElementsByClassName('video_cont')[0].insertBefore(up_section,
+          document.getElementById('video'));
     }
 
     function rotate_gallery()

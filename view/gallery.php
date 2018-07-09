@@ -29,7 +29,7 @@
             "<div class='gallery_item'>
                 <div class='gallery_head'><img class='people' src='view/assets/people.png'/><p class='snap_title'>"
             .$login.
-            "</p>snap taken at ".$o_snap->format_timestamp($phot['upload_time'])."</div>
+            "</p>snap taken ".$o_snap->format_timestamp($phot['upload_time'])."</div>
                 <img class='gallery_pic' src='../model/pics/".$phot['path']."'/>
             <div ";
             if ($user_id != 0 && $o_like->likes($user_id, $phot['id']) == FALSE)

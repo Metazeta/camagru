@@ -69,7 +69,7 @@ class snap extends pdo_connection
         $local_date = $utc_date;
         $local_date->setTimeZone(new DateTimeZone('Europe/Paris'));
         setlocale (LC_TIME, 'fr_FR');
-        return strftime("%H:%M", $local_date->getTimestamp());
+        return strftime("at %H:%M on %B %e %G", $local_date->getTimestamp());
     }
 
     function save(user $user, $img)

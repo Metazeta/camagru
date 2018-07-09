@@ -4,7 +4,6 @@
 ?>
 <div class="content_container">
     <div class="video_cont">
-        <div id='filter'><img id="filter_img" src=""/></div>
         <video autoplay="true" id="video"></video>
         <div id="snap" class="capture">Snap</div>
         <div class="content">
