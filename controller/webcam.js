@@ -32,7 +32,19 @@
         up_butn.type = 'file';
         up_butn.accept = 'image/*';
         document.getElementsByClassName('video_cont')[0].insertBefore(up_section,
-          document.getElementById('video'));
+            document.getElementById('video'));
+        up_butn.addEventListener('change', function(){
+           var reader = new FileReader();
+           reader.readAsDataURL(up_butn.files[0]);
+           reader.addEventListener('load', function () {
+               var newvid = document.createElement('img');
+               document.getElementById('video').remove();
+               newvid.src = reader.result;
+               newvid.id = 'video';
+               var videocont = document.getElementsByClassName('video_cont')[0];
+               videocont.insertBefore(newvid, document.getElementById('snap'));
+           });
+        });
     }
 
     function rotate_gallery()
@@ -55,22 +67,30 @@
     }
 
     function takepicture() {
-
         var canvas = document.getElementById('canvas');
         var video = document.getElementById('video');
-        var width = video.videoWidth;
-        var height = video.videoHeight;
+        var width = 0;
+        var height = 0;
+        if (video.nodeName === 'VIDEO'){
+            width = video.videoWidth;
+            height = video.videoHeight;
+        }
+        else {
+            width = video.width;
+            height = video.height;
+        }
         canvas.width = width;
         canvas.height = height;
         canvas.getContext('2d').drawImage(video, 0, 0, width, height);
         var data = canvas.toDataURL('image/png');
         var imginser = rotate_gallery();
         imginser.src = data;
+        var xh = null;
         if (window.XMLHttpRequest) {
-            var xh = new XMLHttpRequest();
+            xh = new XMLHttpRequest();
         }
         else if (window.ActiveXObject) {
-            var xh = new ActiveXObject("Microsoft.XMLHTTP");
+            xh = new ActiveXObject("Microsoft.XMLHTTP");
         }
         xh.open("POST", "controller/upload_snap.php", true);
         xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -84,11 +104,12 @@
 
     function delete_snap(id)
     {
+        var xh = null;
         if (window.XMLHttpRequest) {
-            var xh = new XMLHttpRequest();
+            xh = new XMLHttpRequest();
         }
         else if (window.ActiveXObject) {
-            var xh = new ActiveXObject("Microsoft.XMLHTTP");
+            xh = new ActiveXObject("Microsoft.XMLHTTP");
         }
         xh.open("POST", "controller/delete_snap.php", true);
         xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

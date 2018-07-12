@@ -21,6 +21,17 @@ class comment extends pdo_connection
         return [$login, $content];
     }
 
+    function notify_user($snap_id)
+    {
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `user_id` FROM `comments` WHERE `snap_id` = :snap_id");
+        $st->execute(array(':snap_id' => $snap_id));
+        $this->close();
+        $user = new user("");
+        $user->login_from_id($st->fetchAll()[0][0]);
+        $user->notify("Hey ".$user->get_login()."! You got a new comment !");
+    }
+
     function get_comments($snap_id)
     {
         $this->connect();

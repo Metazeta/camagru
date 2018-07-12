@@ -5,7 +5,6 @@ function password_validity(password)
     var upper = password.match(/[A-Z]/) ? password.match(/[A-Z]/).length : 0;
     var lower = password.match(/[a-z]/) ? password.match(/[a-z]/).length : 0;
     var number = password.match(/[1-9]/g) ? password.match(/[1-9]/).length : 0;
-    var others = password.length - upper - lower - number;
     if (upper === 0)
         return "Password must contain an uppercase letter";
     if (lower === 0)

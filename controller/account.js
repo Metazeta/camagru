@@ -149,37 +149,32 @@ document.getElementById("delete").addEventListener('click', function(ev){
 //--------------------------------------------------------------------------
 // Setting panel
 
-document.getElementById("settings").addEventListener('click', function(ev){
-  var el = document.getElementById("account_content");
-  el.className = "settings";
-  el.innerHTML =
-      "<div class='setting_list'> Receive an email when a user likes or comments my snaps" +
-      "<label class='switch'>" +
-      "<input type='checkbox' id='suscribe'>" +
-      "<span class='slider'></span>" +
-      "</label>" +
-      "</div>";
-    let state = 0;
-    xh = new XMLHttpRequest();
-    xh.onreadystatechange = function() {
-    if (xh.readyState === 4)
-    {
+document.getElementById("settings").addEventListener('click', function() {
+    var el = document.getElementById("account_content");
+    el.className = "settings";
+    el.innerHTML =
+        "<div class='setting_list'> Receive an email when a user likes or comments my snaps" +
+        "<label class='switch'>" +
+        "<input type='checkbox' id='suscribe'>" +
+        "<span class='slider'></span>" +
+        "</label>" +
+        "</div>";
+    var state = 0;
+    var xh = new XMLHttpRequest();
+    xh.onreadystatechange = function () {
+        if (xh.readyState === 4) {
             state = xh.response;
             document.getElementById('suscribe').checked = (state === '1');
-            document.getElementById('suscribe').addEventListener('click', function(ev){
-            xh2 = new XMLHttpRequest();
-            xh2.onreadystatechange = function() {
-                if (xh2.readyState === 4)
-                  console.log(xh2.response);
-              }
-            xh2.open("POST", "../controller/get_settings.php", true);
-            xh2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            state = ((parseInt(state) + 1) % 2);
-            xh2.send("set=true&state=" + state);
-      });
-    }
-  }
-    xh.open("POST", "../controller/get_settings.php", true);
-    xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xh.send();
+            document.getElementById('suscribe').addEventListener('click', function () {
+                var xh2 = new XMLHttpRequest();
+                xh2.open("POST", "../controller/get_settings.php", true);
+                xh2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                state = ((parseInt(state) + 1) % 2);
+                xh2.send("set=true&state=" + state);
+            });
+        }
+    };
+        xh.open("POST", "../controller/get_settings.php", true);
+        xh.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xh.send();
 });

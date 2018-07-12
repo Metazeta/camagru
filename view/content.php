@@ -4,7 +4,7 @@
 ?>
 <div class="content_container">
     <div class="video_cont">
-        <video autoplay="true" id="video"></video>
+        <video autoplay='true' id="video"></video>
         <div id="snap" class="capture">Snap</div>
         <div class="content">
             <?php

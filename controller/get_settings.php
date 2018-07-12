@@ -9,4 +9,4 @@ if (isset($_POST["set"]))
 }
 else
   echo $user->get_suscribe();
-?>
+

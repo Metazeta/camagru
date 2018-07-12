@@ -1,11 +1,23 @@
 <?php
 require_once 'pdo.class.php';
+require_once 'user.class.php';
 
 class like extends pdo_connection
 {
     function __construct()
     {
         parent::__construct();
+    }
+
+    function notify_user($snap_id)
+    {
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `user_id` FROM `pics` WHERE `id` = :snap_id");
+        $st->execute(array(':snap_id' => $snap_id));
+        $this->close();
+        $user = new user("");
+        $user->login_from_id($st->fetchAll()[0][0]);
+        $user->notify("Hey ".$user->get_login()."! You got a new like!");
     }
 
     function register_like($user_id , $snap_id)
@@ -21,7 +33,9 @@ class like extends pdo_connection
         {
             $st = $this->dbh->prepare("INSERT INTO likes (`user_id`, `snap_id`) VALUES (:user_id, :snap_id)");
             $st->execute(array(":user_id" => $user_id, ":snap_id" => $snap_id));
+            $this->notify_user($snap_id);
         }
+        $this->connect();
         $st = $this->dbh->prepare("SELECT COUNT(*) FROM likes WHERE `snap_id` = :snap_id");
         $st->execute(array(":snap_id" => $snap_id));
         $currentlikes = $st->fetchAll()[0];

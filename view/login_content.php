@@ -7,6 +7,6 @@
     <p class="loginlabel">Password</p>
     <input placeholder='password' class='loginitem' type="password" name="passwd" id="new_pass1"/>
     <input id='submit' type="submit" value="Login">
-    <a id='forgot' href=''>Mot de passe oublié ?</a>
+    <a id='forgot' href='../reset.php'>Mot de passe oublié ?</a>
 </form>
 </div>

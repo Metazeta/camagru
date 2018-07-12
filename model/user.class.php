@@ -66,15 +66,32 @@ class user extends pdo_connection
 
     private function get_mail()
     {
-        if ($this->passwd != "") {
-            $this->connect();
-            $st = $this->dbh->prepare("SELECT `email` FROM users WHERE login = :login");
-            $st->execute(array(':login' => $this->login));
-            $row = $st->fetchAll();
-            $this->close();
-            if ($row && isset($row[0]) && isset($row[0]['email']))
-                $this->email = $row[0]['email'];
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `email` FROM users WHERE login = :login");
+        $st->execute(array(':login' => $this->login));
+        $row = $st->fetchAll();
+        $this->close();
+        if (isset($row[0]) && isset($row[0]['email'])){
+            $this->email = $row[0]['email'];
+            return $this->email;
         }
+        return FALSE;
+    }
+
+
+    public function reset_pwd($newpass1, $newpass2, $confirm)
+    {
+        if ($this->exists_confirm($confirm))
+        {
+            $this->connect();
+            $st = $this->dbh->prepare("UPDATE users SET `passwd` = :newpass WHERE `confirmation` = :confirm");
+            $st->execute(array(":newpass" => hash("sha384", $newpass1), ":confirm" => $confirm));
+            $this->close();
+            $this->passwd = hash("sha384", $new);
+            $this->confirm($confirm);
+            return TRUE;
+        }
+        return FALSE;
     }
 
     public function confirm($confirm)
@@ -94,16 +111,51 @@ class user extends pdo_connection
         $st->execute(array(":login" => $this->login));
         $res = $st->fetchAll();
         $this->close();
-        return $res[0][0];
+        return $res[0];
     }
 
-    public function send_confirm_mail()
+    public function exists_confirm($confirm)
     {
-        $this->get_mail();
-        $content = "Please visit <a href='plop'?confirm=".$this->get_confirm().
-            "' this link</a> to confirm your account";
-        mail($this->email, "My Little Camagru - Confirm your email", $content);
+        $this->connect();
+        $st = $this->dbh->prepare("SELECT `confirmation` FROM `users` WHERE `confirmation` = :confirm");
+        $st->execute(array(":confirm" => $confirm));
+        $res = $st->rowCount();
+        $this->close();
+        return ($res > 0);
+    }
+
+    public function set_confirm()
+    {
+        $this->connect();
+        $newconfirm = uniqid();
+        $st = $this->dbh->prepare("UPDATE `users` SET confirmation = :confirm WHERE `login` = :login");
+        $st->execute(array(":login" => $this->login, ":confirm" => $newconfirm));
+        $this->close();
+        $this->notify("You asked a reset of your password !<br>Please visit
+                        <a href='http://".$_SERVER['HTTP_HOST']."/reset.php?confirm=".$newconfirm.
+            "'>this link</a> to proceed");
+    }
+
+    public function notify($content)
+    {
+        $email = $this->get_mail();
+        if ($this->get_suscribe()) {
+            $content = "<!DOCTYPE html><html>".$content."</html>";
+            $headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
+            mail($email, "My Little Camagru", $content, $headers);
+            return $email;
         }
+        return FALSE;
+    }
+
+    public function send_confirm_mail($email)
+    {
+        $headers = "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        $content = "<!DOCTYPE html>
+                <html>Hi ".$this->login."! Please visit <a href='http://".$_SERVER['HTTP_HOST']."/confirm.php?confirm=".$this->get_confirm().
+            "'>this link</a> to confirm your account</html>";
+        mail($email, "My Little Camagru - Confirm your email", $content, $headers);
+    }
 
     public function create($passwd, $email)
     {
@@ -114,11 +166,11 @@ class user extends pdo_connection
         $exists = $st->fetchAll();
         if (count($exists) != 0)
             return FALSE;
-        $st = $this->dbh->prepare("INSERT INTO `users` (`login`, `passwd`, `email`, `confirmation`)
-        VALUES (:login, :passwd, :email, :confirm)");
+        $st = $this->dbh->prepare("INSERT INTO `users` (`login`, `passwd`, `email`, `confirmation`, `suscribe`)
+        VALUES (:login, :passwd, :email, :confirm, 1)");
         $st->execute(array(":login" => $this->login, ":passwd" => $passwd, ":email" => $email, ":confirm" => uniqid()));
         $this->close();
-        $this->send_confirm_mail();
+        $this->send_confirm_mail($email);
         return TRUE;
     }
 
@@ -164,8 +216,11 @@ class user extends pdo_connection
         return 1;
     }
 
-        public function update_email($current, $new)
+        public function update_email($passwd, $new)
         {
+            $this->get_passwd();
+            if (hash("sha384", $passwd) !== $this->passwd)
+                return -1;
             $this->connect();
             $st2 = $this->dbh->prepare("UPDATE users SET `email` = :newmail WHERE `login` = :login");
             $st2->execute(array(":newmail" => $new, ":login" => $this->login));
@@ -202,7 +257,7 @@ class user extends pdo_connection
         $id = $this->get_id();
         $this->connect();
         $st = $this->dbh->prepare("DELETE FROM pics WHERE `user_id` = :user_id");
-        $st->execute(array(":user_id" => $lid));
+        $st->execute(array(":user_id" => $id));
         $st = $this->dbh->prepare("DELETE FROM comments WHERE `user_id` = :user_id");
         $st->execute(array(":user_id" => $id));
         $st = $this->dbh->prepare("DELETE FROM likes WHERE `user_id` = :user_id");

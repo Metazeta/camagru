@@ -9,6 +9,7 @@ function add_comment($snap_id, $content)
     $user = unserialize($_SESSION['user']);
     $comment = new comment();
     $com = $comment->register_comment($user->get_id(), $snap_id, $content);
+    $comment->notify_user($snap_id);
     echo "<b>".$com[0]."</b> ".$com[1];
 }
 

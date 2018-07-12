@@ -10,7 +10,7 @@ function add_like($image_id)
         $user = unserialize($_SESSION['user']);
         $like = new like();
         $currentlike = $like->register_like($user->get_id(), $image_id);
-        echo $currentlike;
+        echo $currentlike[0];
     }
 }
 
