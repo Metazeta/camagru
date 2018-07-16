@@ -1,0 +1,249 @@
+.account{
+    display:grid;
+    align-items: center;
+    grid-template-columns: 100px 1fr;
+    grid-gap: 5%;
+}
+
+.account_nav
+{
+    margin-left: -100%;
+    height: 80%;
+    border-radius: 8px;
+    background-color: white;
+    border: 1px solid darkgrey;
+}
+
+.account_item
+{
+    font-family: sans-serif, Arial;
+    color: darkgrey;
+    padding: 8px;
+    margin: 8px;
+    text-align: right;
+    cursor: pointer;
+}
+
+.account_item:hover
+{
+    color: grey;
+}
+
+.account_container
+{
+    height: 80%;
+}
+
+#account_content
+{
+    font-family: sans-serif, Arial;
+    padding: 12px;
+}
+
+.change_login_form
+{
+    width: 280px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px darkgray;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    position: relative;
+    left: 50%;
+    top: 100px;
+    display:grid;
+    margin-left: -230px;
+    grid-template-rows: 15px repeat(4, 30px);
+    grid-template-columns: 120px 160px;
+    height: 130px;
+    grid-row-gap: 10px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    font-size: 14px;
+}
+
+.password_form
+{
+    width: 280px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px darkgray;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    position: relative;
+    left: 50%;
+    top: 100px;
+    display:grid;
+    margin-left: -230px;
+    grid-template-rows: 15px repeat(4, 30px);
+    grid-template-columns: 120px 160px;
+    height: 180px;
+    grid-row-gap: 10px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    font-size: 14px;
+}
+
+.delete_form
+{
+    width: 280px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px darkgray;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    position: relative;
+    left: 50%;
+    top: 100px;
+    display:grid;
+    margin-left: -230px;
+    grid-template-rows: 15px repeat(4, 30px);
+    grid-template-columns: 120px 160px;
+    height: 90px;
+    grid-row-gap: 10px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    font-size: 14px;
+}
+
+#password_confirm
+{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background-color: whitesmoke;
+    line-height: 30px;
+}
+
+#hint{
+    font-size: 10px;
+    font-family: sans-serif, Arial;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    line-height: 30px;
+}
+
+#info_delete
+{
+    font-size:13px;
+    font-family: sans-serif, Arial;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#delete_confirm
+{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background-color: whitesmoke;
+    line-height: 5px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.confirm
+{
+    width: 100%;
+    min-height:100%;
+    text-align: center;
+    padding-top: 80px;
+    font-family: sans-serif, Georgia;
+    top: 30%;
+}
+
+.setting_list
+{
+  display:grid;
+  grid-template: repeat(10, 50px) / 350px 50px;
+  grid-gap: 20px;
+}
+
+.settings
+{
+  width: 450px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px darkgray;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  position: relative;
+  left: 50%;
+  top: 100px;
+  display:grid;
+  margin-left: -400px;
+  grid-template-rows: 15px repeat(4, 30px);
+  grid-template-columns: 120px 160px;
+  height: 90px;
+  grid-row-gap: 10px;
+  border: 1px solid lightgrey;
+  background-color: white;
+  font-size: 14px;
+}
+
+.textinput
+{
+  text-align: right;
+  width: 90%;
+}
+
+.inputlabel
+{
+  text-align: left;
+  width: 90%;
+}

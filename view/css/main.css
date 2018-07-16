@@ -1,0 +1,30 @@
+html
+{
+    height: 100%;
+    max-width: 100%;
+}
+
+.main_body
+{
+    position: relative;
+    height: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    background-color: whitesmoke;
+    padding: 0;
+    margin: 0;
+}
+
+.website_container
+{
+    position:relative;
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 75px 1fr 70px;
+}
+
+p
+{
+    text-align: center;
+}
