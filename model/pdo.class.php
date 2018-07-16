@@ -23,7 +23,7 @@ class pdo_connection
             $this->dbh->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e)
         {
-            print ("Could not connect to database, please create a `cama` database");
+            print ("Could not connect to database, please create a `".$this->db_name."` database");
             die();
         }
     }
@@ -60,13 +60,12 @@ class pdo_connection
     function diagnose()
     {
         $this->connect();
-        $tmp = $this->dbh->query("SHOW TABLES FROM `cama`")->fetchAll(PDO::FETCH_ASSOC);
+        $tmp = $this->dbh->query("SHOW TABLES FROM `".$this->db_name."`")->fetchAll(PDO::FETCH_ASSOC);
         $res = array();
         foreach ($tmp as $r)
         {
-            $res[$r['Tables_in_cama']] = true;
+            $res[$r['Tables_in_'.$this->db_name]] = true;
         }
-        $this->close();
         if (isset($res['likes']) && isset($res['comments']) && isset($res['pics']) && isset($res['filters']) && isset($res['users']))
             return true;
         else
