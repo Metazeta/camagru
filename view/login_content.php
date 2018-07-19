@@ -1,4 +1,8 @@
 <?php
+require_once 'model/pdo.class.php';
+$diag = new pdo_connection();
+if (!$diag->diagnose())
+    header("Location: config/setup.php?reset=true");
 ?>
 <div class="loginbody">
 <form class="loginform" method="POST" action="../controller/logme.php">

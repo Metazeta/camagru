@@ -1,6 +1,6 @@
 <?php
-    if (!isset($_SESSION['user']))
-        header("Location: ../index.php");
+    if (!isset($_SESSION['user']) || $_SESSION['user'] === "")
+        header("Location: ../login.php");
     require_once 'model/user.class.php';
     require_once 'model/snap.class.php';
     require_once 'model/filter.class.php';

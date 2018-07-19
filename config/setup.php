@@ -7,3 +7,9 @@ require_once dirname(__FILE__) . '/../model/pdo.class.php';
      $connect->reset();
  $connect->init();
  $connect->close();
+?>
+<script type="text/javascript">
+    window.setTimeout(function(){
+        location.href="../index.php";
+    },2000);
+</script>

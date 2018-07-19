@@ -187,13 +187,13 @@ class user extends pdo_connection
     {
         $this->get_passwd();
         if (hash("sha384", $current) !== $this->passwd)
-            return false;
+            return -1;
         $this->connect();
         $st = $this->dbh->prepare("UPDATE users SET `passwd` = :newpass WHERE `login` = :login");
         $st->execute(array(":newpass" => hash("sha384", $new), ":login" => $this->login));
         $this->close();
         $this->passwd = hash("sha384", $new);
-        return true;
+        return 1;
     }
 
     public function update_login($current, $new)

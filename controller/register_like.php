@@ -14,5 +14,5 @@ function add_like($image_id)
     }
 }
 
-if (isset($_POST['snap_id']))
+if (isset($_POST['snap_id']) && isset($_SESSION['user']) && $_SESSION['user'] !== "")
     add_like($_POST['snap_id']);

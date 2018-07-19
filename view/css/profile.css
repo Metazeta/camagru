@@ -83,6 +83,8 @@
 {
     width: 60%;
     background-color: whitesmoke;
+    max-height: 600px;
+    max-width: 900px;
 }
 
 .overlay
@@ -161,6 +163,6 @@
     display:grid;
     padding: 20px;
     margin-right: 50px;
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 220px 1fr 150px;
     font-family: sans-serif, Arial;
 }

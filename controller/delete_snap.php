@@ -13,5 +13,5 @@ function delete_snap($img)
     $delsnap->delete($img);
 }
 
-if (isset($_POST['snap_id']) && isset($_SESSION['user']))
+if (isset($_POST['snap_id']) && isset($_SESSION['user']) && $_SESSION['user'] !== "")
     delete_snap($_POST['snap_id']);

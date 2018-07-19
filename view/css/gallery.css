@@ -1,3 +1,23 @@
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: white;
+    color: grey;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    border: 1px solid whitesmoke;
+    position: absolute;
+    font-family: sans-serif, Arial;
+    font-size: 12px;
+    z-index: 5;
+}
+
+.gallery_item:hover .tooltiptext
+{
+    visibility: visible;
+}
+
 .gallery
 {
     justify-self: center;

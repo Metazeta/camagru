@@ -37,7 +37,7 @@ document.getElementById("change_email").addEventListener('click', function(ev){
     });
 // Change login panel
 
-document.getElementById("change_login").addEventListener('click', function(ev){
+document.getElementById("change_login").addEventListener('click', function(){
     var el = document.getElementById("account_content");
     el.className="change_login_form";
     el.innerHTML =
@@ -66,7 +66,28 @@ document.getElementById("change_login").addEventListener('click', function(ev){
             xh.send("pwd=" + document.getElementById("initial_pass").value +
                 "&newlogin=" + document.getElementById("newlogin").value);
         });
+    document.getElementById('newlogin').addEventListener('keyup', function() {
+        var hint = document.getElementById('hint');
+        var val1 = document.getElementById('newlogin').value;
+        var res = check_form(val1, "", "");
+        console.log(res);
+        if (res === "" && (val1 === "" || document.getElementById("initial_pass").value === ""))
+            res = "Please fill all the fields";
+        hint.innerText = res;
+        document.getElementById("change_login_confirm").disabled = res !== "";
+    }, false);
+    document.getElementById('initial_pass').addEventListener('keyup', function() {
+        var hint = document.getElementById('hint');
+        var val1 = document.getElementById('newlogin').value;
+        var res = check_form(val1, "", "");
+        console.log(res);
+        if (res === "" && (val1 === "" || document.getElementById("initial_pass").value === ""))
+            res = "Please fill all the fields";
+        hint.innerText = res;
+        document.getElementById("change_login_confirm").disabled = res !== "";
+    }, false);
   });
+
 // Change password panel
 document.getElementById("password").addEventListener('click', function(ev){
     var el = document.getElementById("account_content");
@@ -84,8 +105,10 @@ document.getElementById("password").addEventListener('click', function(ev){
             xh = new XMLHttpRequest();
             xh.onreadystatechange = function() {
                 if (xh.readyState === 4) {
-                    if (xh.response !== false)
+                    if (xh.response === '1')
                         document.getElementById("hint").innerText = "Your new password was set successfully";
+                    else
+                        document.getElementById("hint").innerText = "Your password is wrong, try again";
                 }
             };
             xh.open("POST", "../controller/update_user.php", true);
@@ -98,7 +121,9 @@ document.getElementById("password").addEventListener('click', function(ev){
         var hint = document.getElementById('hint');
         var val1 = document.getElementById('new_pass1').value;
         var val2 = document.getElementById('new_pass2').value;
-        var res = check_form(val1, val2);
+        var res = check_form('', val1, '');
+        if (res === "" && (val1 === "" || val2 === ""))
+            res = "Please fill all the fields";
         hint.innerText = res;
         document.getElementById("password_confirm").disabled = res !== "";
     }, false);
@@ -106,21 +131,14 @@ document.getElementById("password").addEventListener('click', function(ev){
         var hint = document.getElementById('hint');
         var val1 = document.getElementById('new_pass1').value;
         var val2 = document.getElementById('new_pass2').value;
-        var res = check_form(val1, val2);
+        var res = check_form('', val2, '');
+        if (res === "" && (val1 === "" || val2 === ""))
+            res = "Please fill all the fields";
         hint.innerText = res;
         document.getElementById("password_confirm").disabled = res !== "";
         }, false);
 }, false);
 
-function check_form(pass1, pass2)
-{
-    var validity = password_validity(pass1);
-    if (validity !== "")
-        return validity;
-    if (pass1 !== pass2)
-        return "Passwords must match";
-    return "";
-}
 //--------------------------------------------------------------------------
 // Delete account
 document.getElementById("delete").addEventListener('click', function(ev){

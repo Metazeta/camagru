@@ -37,3 +37,25 @@ function isAlphaNumeric(str) {
     }
     return true;
 }
+
+function login_validity(login)
+{
+    if (!isAlphaNumeric(login))
+        return "Your login must be alphanumeric";
+    return "";
+}
+
+
+function check_form(login, pass, email)
+{
+    var pass_error = password_validity(pass);
+    var mail_error = mail_validity(email);
+    var login_error = login_validity(login);
+    if (login_error !== "" && login !== "")
+        return login_error;
+    if (pass_error !== "" && pass !== "")
+        return pass_error;
+    if (mail_error !== "" && email !== "")
+        return mail_error;
+    return "";
+}

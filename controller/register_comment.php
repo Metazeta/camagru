@@ -13,5 +13,5 @@ function add_comment($snap_id, $content)
     echo "<b>".$com[0]."</b> ".$com[1];
 }
 
-if (isset($_POST['snap_id']) && isset($_POST['content']))
+if (isset($_POST['snap_id']) && isset($_POST['content']) && isset($_SESSION['user']) && $_SESSION['user'] !== "")
     add_comment($_POST['snap_id'], htmlspecialchars($_POST['content']));
