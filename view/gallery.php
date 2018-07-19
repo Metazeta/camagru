@@ -38,7 +38,8 @@
         if ($user_id == $phot['user_id'])
             echo "pic_mine";
         echo "' class='gallery_pic' src='../model/pics/".$phot['path']."'/>";
-        echo  "<span class='tooltiptext'>Right click on this snap to delete it</span>";
+        if ($user_id == $phot['user_id'])
+            echo  "<span class='tooltiptext'>Right click on this snap to delete it</span>";
         echo    "<div ";
             if ($user_id != 0 && $o_like->likes($user_id, $phot['id']) == FALSE)
                 echo "class='likebtn likebtnnotliked'";
